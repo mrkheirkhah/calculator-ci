@@ -27,7 +27,7 @@ jobs:
         run: npm run lint || echo "Add lint script to package.json"
       
       - name: Run tests
-        run: npm test -- --passWithNoTests
+        run: npm test
 
       - name: Build application
         run: npm run build
