@@ -6,9 +6,12 @@ on:
   pull_request:
 
 jobs:
-  lint-and-test:
-    runs-on: ubuntu-latest
-    
+  test-matrix:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18, 20]
     steps:
       - uses: actions/checkout@v4
       
@@ -25,3 +28,13 @@ jobs:
       
       - name: Run tests
         run: npm test -- --passWithNoTests
+
+      - name: Build application
+        run: npm run build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+          retention-days: 7
